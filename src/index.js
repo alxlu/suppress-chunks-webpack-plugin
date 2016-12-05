@@ -8,7 +8,6 @@ export default class SuppressEntryChunksPlugin {
   apply(compiler) {
     compiler.plugin('emit', (compilation, callback) => {
       compilation.chunks.forEach((chunk) => {
-        // if (this.files.skip.indexOf(chunk.name) >= 0) {
         if (this.files.includes(chunk.name)) {
           // eslint-disable-next-line no-param-reassign
           chunk.files.forEach(file => delete compilation.assets[file]);
