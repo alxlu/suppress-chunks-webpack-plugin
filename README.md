@@ -37,3 +37,70 @@ module.exports = {
 }
 
 ```
+
+### Filtering out specific files
+
+If you have a chunk that produces multiple output files e.g. if you're using something like `extract-text-webpack-plugin` to generate a `.css` file, you can filter out specific files in the chunk to suppress. Simply add an object instead of a string into the array: `{ name: string, match: regexp }`
+
+
+```js
+// one.js
+require('./one.css');
+```
+
+This would suppress `one.js`, but not `one.css`
+
+```js
+var SuppressChunksPlugin = require('suppress-chunks-webpack-plugin');
+
+module.exports = {
+  ...
+  
+  entry: {
+    one: './one.js',
+    foo: './foo.js',
+    bar: './bar.js',
+    main: './index.js',
+  },
+
+  output: {
+    path: path.join(__dirname, '/dist')),
+    filename: '[name].js',
+  },
+  
+  module: {
+    loaders: [{
+      ...,
+      
+      loader: ExtractTextPlugin.extract(
+        'style-loader',
+        'css-loader',
+    }],
+  },
+
+  plugins: [
+    ...
+    new ExtractTextPlugin('[name].css'),
+ 
+    new SuppressChunksPlugin([
+      { name: 'one', match: /\.js$/ },
+      'foo',
+      'bar',
+    ]);
+  ]
+  ```
+  
+  
+### Filtering out specific patterns
+  
+If you want to filter out a pattern for all of your chunks, you can pass in an options object as the second parameter:
+```js
+new SuppressChunksPlugin([
+  'one',
+  'two',
+  'foo',
+  'bar',
+  { name: 'file', match: /\.css$/ },
+  // entries passed in with a match field have priority over the options object.
+], { filter: /\.js$/ });
+```
