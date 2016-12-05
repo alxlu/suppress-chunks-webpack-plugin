@@ -1,21 +1,22 @@
 /* @flow */
 import 'core-js/modules/es7.array.includes';
+import find from 'lodash/find';
 
 type F = Array<Object> | Array<string> | string;
-type O = { filter: string | Array<string>; keep: boolean };
+type O = { filter: string | null; keep: boolean };
 
 export default class SuppressEntryChunksPlugin {
-  filter: Array<string>;
+  filter: string | null;
   keep: boolean;
-  files: Array<{ name: string; extension: string | void}>;
-  constructor(files: F, { filter, keep }: O = { filter: [], keep: false }) {
+  files: Array<{ name: string; match: string | null; keep: boolean}>;
+  constructor(files: F, { filter, keep }: O = { filter: null, keep: false }) {
     const fileList: Array<any> = Array.isArray(files) ? files : [files];
-    this.filter = Array.isArray(filter) ? filter : [filter];
+    this.filter = filter;
     this.files = fileList.map((file) => {
       if (typeof file === 'string') {
-        return { name: file, extension: void 0 };
+        return { name: file, match: null, keep: false };
       }
-      return file;
+      return { match: null, keep: false, ...file };
     });
     this.keep = keep;
   }
@@ -24,8 +25,19 @@ export default class SuppressEntryChunksPlugin {
     compiler.plugin('emit', (compilation, callback) => {
       compilation.chunks.forEach((chunk) => {
         if (this.files.map(file => file.name).includes(chunk.name)) {
+          const { match, keep } = find(this.files, { name: chunk.name });
+
+          chunk.files.filter((file) => {
+            if (match !== null) {
+              const regexp = new RegExp(match);
+              return keep ? !regexp.test(file) : regexp.test(file);
+            } else if (this.filter !== null) {
+              const regexp = new RegExp(this.filter);
+              return this.keep ? !regexp.test(file) : regexp.test(file);
+            }
+            return true;
           // eslint-disable-next-line no-param-reassign
-          chunk.files.forEach(file => delete compilation.assets[file]);
+          }).forEach(file => delete compilation.assets[file]);
         }
       });
       callback();
