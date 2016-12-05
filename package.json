@@ -1,0 +1,37 @@
+{
+  "name": "suppress-chunks-webpack-plugin",
+  "version": "0.0.1",
+  "description": "plugin to suppress webpack chunks",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "repository": "https://github.com/alxlu/suppress-chunks-webpack-plugin.git",
+  "author": "Alex Lu",
+  "license": "MIT",
+  "scripts": {
+    "start": "babel src/ -d dist/",
+    "lint": "eslint src/",
+    "pretest": "npm run lint",
+    "test": "mocha --require babel-core/register",
+    "prepublish": "npm test && npm start"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-eslint": "^7.1.1",
+    "babel-preset-latest": "^6.16.0",
+    "babel-preset-stage-3": "^6.17.0",
+    "chai": "^3.5.0",
+    "del": "^2.2.2",
+    "eslint": "^3.11.1",
+    "eslint-config-airbnb-base": "^10.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "flow-bin": "^0.36.0",
+    "mocha": "^3.2.0",
+    "webpack": "^1.13.3"
+  },
+  "dependencies": {
+    "core-js": "^2.4.1"
+  }
+}
