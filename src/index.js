@@ -36,8 +36,12 @@ export default class SuppressEntryChunksPlugin {
               return this.keep ? !regexp.test(file) : regexp.test(file);
             }
             return true;
-          // eslint-disable-next-line no-param-reassign
-          }).forEach(file => delete compilation.assets[file]);
+          }).forEach((file) => {
+            // eslint-disable-next-line no-param-reassign
+            chunk.files = chunk.files.filter(f => f !== file);
+            // eslint-disable-next-line no-param-reassign
+            delete compilation.assets[file];
+          });
         }
       });
       callback();
