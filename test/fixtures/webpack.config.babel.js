@@ -1,5 +1,5 @@
 import { join } from 'path';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import SuppressChunksPlugin from '../../src';
 
 const entries = {
@@ -20,11 +20,10 @@ export const webpackConfig1 = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        exclude: /node_modules/,
-        loader: 'css-loader'
+        use: 'css-loader'
       }
     ]
   },
@@ -42,22 +41,16 @@ export const webpackConfig2 = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        exclude: /node_modules/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: 'css-loader?modules&importLoaders=1'
-        })
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
-
   output,
-
   plugins: [
-    new ExtractTextPlugin('[name].css'),
+    new MiniCssExtractPlugin({ filename: '[name].css' }),
     new SuppressChunksPlugin([{ name: 'one', match: /\.js$/ }, 'two'])
   ]
 };
@@ -66,7 +59,7 @@ export const webpackConfig3 = {
   ...webpackConfig2,
 
   plugins: [
-    new ExtractTextPlugin('[name].css'),
+    new MiniCssExtractPlugin({ filename: '[name].css' }),
     new SuppressChunksPlugin([{ name: 'one', match: /\.js$/, keep: true }])
   ]
 };
@@ -75,7 +68,7 @@ export const webpackConfig4 = {
   ...webpackConfig2,
 
   plugins: [
-    new ExtractTextPlugin('[name].css'),
+    new MiniCssExtractPlugin({ filename: '[name].css' }),
     new SuppressChunksPlugin(['one', 'two'], { filter: /\.js$/ })
   ]
 };
