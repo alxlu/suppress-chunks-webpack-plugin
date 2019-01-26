@@ -8,18 +8,18 @@ import {
   webpackConfig1,
   webpackConfig2,
   webpackConfig3,
-  webpackConfig4,
+  webpackConfig4
 } from './fixtures/webpack.config.babel';
 
 const outputDir = join(__dirname, 'fixtures/output');
 
 describe('SuppressEntryChunksPlugin', () => {
-  beforeEach((done) => {
+  beforeEach(done => {
     del(outputDir).then(() => done());
   });
 
-  it('suppresses the desired chunks', (done) => {
-    webpack(webpackConfig1, (err) => {
+  it('suppresses the desired chunks', done => {
+    webpack(webpackConfig1, err => {
       if (err) {
         return done(err);
       }
@@ -35,8 +35,8 @@ describe('SuppressEntryChunksPlugin', () => {
     });
   });
 
-  it('can filter files output by the chunks', (done) => {
-    webpack(webpackConfig2, (err) => {
+  it('can filter files output by the chunks', done => {
+    webpack(webpackConfig2, err => {
       if (err) {
         return done(err);
       }
@@ -52,8 +52,8 @@ describe('SuppressEntryChunksPlugin', () => {
     });
   });
 
-  it('can invert the match selection if keep = true', (done) => {
-    webpack(webpackConfig3, (err) => {
+  it('can invert the match selection if keep = true', done => {
+    webpack(webpackConfig3, err => {
       if (err) {
         return done(err);
       }
@@ -69,8 +69,8 @@ describe('SuppressEntryChunksPlugin', () => {
     });
   });
 
-  it('can use a global filter', (done) => {
-    webpack(webpackConfig4, (err) => {
+  it('can use a global filter', done => {
+    webpack(webpackConfig4, err => {
       if (err) {
         return done(err);
       }
@@ -86,7 +86,7 @@ describe('SuppressEntryChunksPlugin', () => {
     });
   });
 
-  afterEach((done) => {
+  afterEach(done => {
     del(outputDir).then(() => done());
   });
 });
