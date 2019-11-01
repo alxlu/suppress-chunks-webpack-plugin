@@ -1,5 +1,4 @@
 /* @flow */
-import find from 'lodash/find';
 
 type F = Array<Object> | Array<string> | string;
 type O = { filter: string | null, keep: boolean };
@@ -26,7 +25,7 @@ export default class SuppressEntryChunksPlugin {
       (compilation, callback) => {
         compilation.chunks.forEach(chunk => {
           if (this.files.map(file => file.name).includes(chunk.name)) {
-            const { match, keep } = find(this.files, { name: chunk.name });
+            const { match, keep } = this.files.find(f => f.name === chunk.name);
 
             chunk.files
               .filter(file => {
