@@ -1,5 +1,4 @@
 /* @flow */
-import 'core-js/modules/es7.array.includes';
 import find from 'lodash/find';
 
 type F = Array<Object> | Array<string> | string;
