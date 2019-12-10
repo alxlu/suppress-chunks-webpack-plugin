@@ -11,16 +11,20 @@
   "license": "MIT",
   "scripts": {
     "start": "babel src/ -d dist/",
-    "test": "mocha --require babel-core/register",
+    "test": "mocha --require @babel/register",
     "prepublish": "npm start"
   },
   "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-core": "^6.18.2",
-    "babel-eslint": "^7.1.1",
-    "babel-plugin-transform-flow-strip-types": "^6.18.0",
-    "babel-preset-latest": "^6.16.0",
-    "babel-preset-stage-3": "^6.17.0",
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-json-strings": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-syntax-import-meta": "^7.0.0",
+    "@babel/plugin-transform-flow-strip-types": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/register": "^7.6.2",
     "chai": "^3.5.0",
     "css-loader": "^0.26.1",
     "del": "^2.2.2",
@@ -30,9 +34,5 @@
     "prettier": "^1.16.1",
     "style-loader": "^0.13.1",
     "webpack": "^4.29.0"
-  },
-  "dependencies": {
-    "core-js": "^2.4.1",
-    "lodash": "^4.17.2"
   }
 }
